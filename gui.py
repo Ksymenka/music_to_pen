@@ -2,7 +2,7 @@
 from files import FileOperation
 from settings import Settings
 from tkinter import *
-from tkinter import ttk, filedialog
+from tkinter import ttk, filedialog 
 
 class Gui:
     def __init__(self,size_x : int, size_y : int): 
@@ -66,7 +66,7 @@ class Gui:
         self.save_options_var = IntVar(value=0)
         self.save_options = ttk.Checkbutton(self.mainframe, text="Save options", variable=self.save_options_var, onvalue=1, offvalue=0, command=lambda: self.save_options_to_a_file(self.files_operations.source_path, self.files_operations.desination_path, self.files_operations.old_path))
         self.save_options.grid(row=8, column=0)
-
+        
 
 
 
