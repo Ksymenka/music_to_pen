@@ -5,6 +5,7 @@ import shutil
 class FileOperation:
     # constuctor methods
     def __init__(self, source_path : str = os.path.expanduser('~/Pobrane'), desination_path : str = None, changed_files_path : str = os.path.expanduser("~/Movies")):
+        # paths
         self.source_path = source_path
         self.desination_path = desination_path or self.check_sus_dest()
         self.changed_files_path = changed_files_path
