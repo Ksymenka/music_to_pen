@@ -38,12 +38,13 @@ class Gui:
 
         self.setup_source_frame()
         self.setup_settings_frame()
+        self.setup_progessbar()
         self.setup_process_frame()
 
 
         # padding
         for child in self.mainframe.winfo_children():
-            child.grid_configure(padx=5, pady=5) 
+            child.grid_configure(padx=10, pady=10) 
 
         self.root.mainloop()
     
@@ -59,7 +60,7 @@ class Gui:
             self.settings.remove_options()
 
     def select_directory(self):
-        selected = filedialog.askdirectory()
+        selected = filedialog.askdirectory(mustexist=True)
         print("User choose", selected, " directory")
         return selected
 
@@ -81,7 +82,8 @@ class Gui:
     def setup_source_frame(self):
         # setting up labels
         self.source_frame = ttk.LabelFrame(self.mainframe, text="Path options")
-        self.source_frame.grid(row=2, column=0, columnspan=3, rowspan=12, sticky=(W, E, N, S))
+        self.source_frame.grid(row=2, column=0, columnspan=3, rowspan=12, sticky=(N))
+        self.source_frame.grid_columnconfigure(index=0,weight=3)
 
         # setting up buttons
 
@@ -107,7 +109,8 @@ class Gui:
         # setting up label
         
         self.settings_frame = ttk.LabelFrame(self.mainframe, text="Saving options")
-        self.settings_frame.grid(row=14, column=0, columnspan=3, rowspan=8, sticky=(W, E, N, S))
+        self.settings_frame.grid(row=14, column=0, columnspan=3, rowspan=8, sticky=(N))
+        self.settings_frame.grid_columnconfigure(index=0,weight=3)
 
         # setting up buttons
 
@@ -119,8 +122,23 @@ class Gui:
 
     def setup_process_frame(self):
         self.process_files_frame = ttk.LabelFrame(self.mainframe, text="Process files")
-        self.process_files_frame.grid(row=24, column=0, pady=10, padx=10)
-        self.process_files_btn = ttk.Button(self.process_files_frame, text="Process files", command=lambda: self.files_operations.process_files())
+        self.process_files_frame.grid(row=24, column=0, pady=10, padx=10, sticky=(N))
+
+        self.process_files_btn = ttk.Button(self.process_files_frame, text="Process files", command=lambda: self.process_files_with_progress())
         self.process_files_btn.grid(row=8, column=1)
+
+    def setup_progessbar(self):
+        self.progress_label = ttk.LabelFrame(self.mainframe)
+        self.progress_label.grid(row=36, column=0, sticky=(N))
+
+        self.progess_text = ttk.Label(self.progress_label)
+        self.progess_text.grid(row=24, column=6)
+        self.progess = ttk.Progressbar(self.progress_label, orient="horizontal", length=200, mode="determinate")
+        self.progess.grid(row=18, column=6)
+
+
+    def process_files_with_progress(self):
+        self.files_operations.process_files_with_progress(self.progess, self.progess_text)
+
         
 gui = Gui(400, 400)

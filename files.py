@@ -1,6 +1,8 @@
 import os
 import subprocess
+import random
 import shutil
+from tkinter import messagebox
 
 class FileOperation:
     # constuctor methods
@@ -36,28 +38,56 @@ class FileOperation:
         new_name = name[0] + '.mp3'
         return new_name
     
+
     def convert_file(self, file_path : str): # used in process_files
         new_file_path = os.path.join(os.path.dirname(file_path), self.create_new_name(file_path))
         subprocess.run(['ffmpeg', '-i', file_path, '-vn', new_file_path, '-loglevel', 'quiet'])
             
     def move_files(self, file_path : str): # used to move files to accurate directories
-        if file_path.endswith(".mp3"):
-            print("File", file_path, " is getting moved to ", self.desination_path)
-            shutil.move(file_path, self.desination_path)
-        elif file_path.endswith(".mp4"):
-            print("File", file_path, " is getting moved to ", self.old_path)
-            shutil.move(file_path, self.old_path)            
-        else:
-            print("File", file_path, " is not a music containing file, excluding...")
+        try:
+            if file_path.endswith(".mp3"):
+                print("File", file_path, " is getting moved to ", self.desination_path)
+                shutil.move(file_path, self.desination_path)
+            elif file_path.endswith(".mp4"):
+                print("File", file_path, " is getting moved to ", self.old_path)
+                shutil.move(file_path, self.old_path)            
+            else:
+                print("File", file_path, " is not a music containing file, excluding...")
+        except shutil.Error:
+            print("File already exists")
+            
 
-    def process_files(self): # used to change file format to mp3 from mp4 and then upload it to approprieate 
+    def process_files_with_progress(self, progress_bar, status_label): # used to change file format to mp3 from mp4 and then upload it to approprieate 
+        print("Searching for files in source directory...")
         files = os.listdir(self.source_path)
-        for file in files:
+        total_files = len(files)
+        progress_bar["maximum"] = total_files
+
+        status_label["text"] = "Preparing..."
+
+        for index, file in enumerate(files, start=1):
             print("Processing file", file, " atm")
+            status_label["text"] = f"Processing file {file}"
             file_path = os.path.join(self.source_path, file)
             self.convert_file(file_path)
+
+            progress_bar["value"] = index
+            progress_bar.update_idletasks()
+
+        print("Converting files done")
+        status_label["text"] = "Converting files done"
+        progress_bar["value"] = 0 
+
         files = os.listdir(self.source_path)
-        for file in files:
+        for index, file in enumerate(files, start=1):
             print("Moving file ", file, " atm")
+            status_label["text"] = f"Movinf file {file}"
             file_path = os.path.join(self.source_path, file)
             self.move_files(file_path)
+
+            progress_bar["value"] = index
+            progress_bar.update_idletasks()
+
+        print("Moving files done.")
+        progress_bar["value"] = 0
+        status_label["text"] = "Done"
