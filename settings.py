@@ -26,7 +26,9 @@ class Settings:
         }
         with open(Settings.config_full_path, "w") as configfile:
             Settings.config.write(configfile)
+            print("Options has been saved to a file at ", Settings.config_full_path)
 
     def remove_options(self):
         if os.path.exists(Settings.config_full_path):
             os.remove(Settings.config_full_path)
+            print("Config file has been deleted")

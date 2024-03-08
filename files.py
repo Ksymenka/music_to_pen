@@ -56,8 +56,8 @@ class FileOperation:
             print("Processing file", file, " atm")
             file_path = os.path.join(self.source_path, file)
             self.convert_file(file_path)
-            subprocess.run(["eza", '--tree', file_path])
         files = os.listdir(self.source_path)
         for file in files:
+            print("Moving file ", file, " atm")
             file_path = os.path.join(self.source_path, file)
             self.move_files(file_path)
