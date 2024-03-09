@@ -84,7 +84,7 @@ class FileOperation:
         files = os.listdir(self.source_path)
         for index, file in enumerate(files, start=1):
             print("Moving file ", file, " atm")
-            status_label["text"] = f"Movinf file {file}"
+            status_label["text"] = f"Moving file {file}"
             file_path = os.path.join(self.source_path, file)
             self.move_files(file_path)
 
