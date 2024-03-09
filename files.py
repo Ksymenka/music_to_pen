@@ -94,3 +94,4 @@ class FileOperation:
         print("Moving files done.")
         progress_bar["value"] = 0
         status_label["text"] = "Done"
+        

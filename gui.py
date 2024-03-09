@@ -1,8 +1,7 @@
-#!/usr/bin/env python3
 from files import FileOperation
 from settings import Settings
 from tkinter import *
-from tkinter import ttk, filedialog 
+from tkinter import ttk, filedialog, messagebox 
 
 class Gui:
     def __init__(self,size_x : int, size_y : int): 
@@ -139,6 +138,3 @@ class Gui:
 
     def process_files_with_progress(self):
         self.files_operations.process_files_with_progress(self.progess, self.progess_text)
-
-        
-gui = Gui(400, 400)
