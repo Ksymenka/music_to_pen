@@ -2,7 +2,6 @@ import os
 import subprocess
 import random
 import shutil
-from tkinter import messagebox
 
 class FileOperation:
     # constuctor methods
@@ -54,7 +53,11 @@ class FileOperation:
             else:
                 print("File", file_path, " is not a music containing file, excluding...")
         except shutil.Error:
-            print("File already exists")
+            print("File already exists, overwritting...")
+            file_name = os.path.basename(file_path)
+            destination_file_path = os.path.join(self.desination_path, file_name)
+            os.remove(destination_file_path)
+            self.move_files(file_path)
             
 
     def process_files_with_progress(self, progress_bar, status_label): # used to change file format to mp3 from mp4 and then upload it to approprieate 
