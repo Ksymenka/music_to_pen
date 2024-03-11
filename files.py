@@ -16,19 +16,19 @@ class FileOperation:
     def check_sus_dest(self):
         sus_paths = ["/media/", "/mnt"]
         for path in sus_paths:
-            if self.check_dest_is_dir(path) is not None:
-                return path
-            
-    def check_dest_is_dir(self, path):
-        if os.path.exists(path):
-            contents = os.listdir(path)
-            for file in contents:
-                file_path = os.path.join(path, file)
-                if os.path.isdir(file_path):
-                    print(file_path, " is a directory")
-                    return os.path.abspath(file_path) 
-        return None
+            found_mount_point = self.check_dest_is_dir_recursively(path)
+            if found_mount_point is not None:
+                return found_mount_point
 
+    def check_dest_is_dir_recursively(self, path):
+        if os.path.exists(path):
+            for root, dirs, files in os.walk(path):
+                for dir_name in dirs:
+                    dir_path = os.path.join(root, dir_name)
+                    print(dir_path, " is a directory")
+                    return os.path.abspath(dir_path)
+        return None
+            
     # file operation methods
 
     def create_new_name(self, file : str): # used in convert_file
