@@ -12,7 +12,7 @@ class Gui:
         # create files.py instance and adds saved paths if they exist
         if self.settings.is_configs_exists():
             paths = self.settings.read_options()
-            self.files_operations = FileOperation(source_path=paths['source_path'], desination_path=paths['dest_path'], old_path=paths['old_path']) 
+            self.files_operations = FileOperation(**paths) 
         else:
             self.files_operations = FileOperation()
 
@@ -104,6 +104,7 @@ class Gui:
         self.select_old = Button(self.source_frame, textvariable=self.selected_old, command=self.select_old)
         self.select_old.grid(row=6, column=6)
 
+    
     def setup_settings_frame(self):
         # setting up label
         

@@ -18,12 +18,18 @@ class Settings:
     def is_configs_exists(self):
         return os.path.exists(Settings.config_full_path)
     
-    def save_options(self, source_path : str, dest_path : str, old_path : str):
-        Settings.config['saved_path'] = {
-            'Source_path' : source_path,
-            'dest_path' : dest_path,
-            'old_path' : old_path
-        }
+    def save_options(self, source_path=None, dest_path=None, old_path=None):
+        Settings.config['saved_path'] = {}
+        if source_path is not None:
+            Settings.config['saved_path']['Source_path'] = source_path
+        
+
+        if  dest_path is not None:
+            Settings.config['saved_path']['dest_path'] = dest_path 
+        
+        if old_path is not None:
+            Settings.config['saved_path']['old_path'] = old_path 
+
         with open(Settings.config_full_path, "w") as configfile:
             Settings.config.write(configfile)
             print("Options has been saved to a file at ", Settings.config_full_path)
