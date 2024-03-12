@@ -1,5 +1,9 @@
-.gitignore
-__pycache__
+bin
 build
 dist
 files.spec
+include
+lib
+lib64
+__pycache__
+pyvenv.cfg
