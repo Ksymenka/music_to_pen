@@ -26,6 +26,8 @@ class Gui:
         # # selected dirs
         self.selected_source = StringVar(value=self.files_operations.source_path)
         self.selected_dest = StringVar(value=self.files_operations.desination_path)
+        if self.select_dest is None or self.select_dest == "":
+            messagebox.showerror("Not found", "Didn't found mounted pendrive. Are you sure it's connected?")
         self.selected_old = StringVar(value=self.files_operations.old_path)
 
         # mainframe

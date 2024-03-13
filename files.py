@@ -2,7 +2,7 @@ import os
 import subprocess
 import random
 import shutil
-
+from tkinter import messagebox
 class FileOperation:
     # constuctor methods
     def __init__(self, source_path : str = os.path.expanduser('~/Pobrane'), desination_path : str = None, old_path : str = os.path.expanduser("~/Movies")):
@@ -29,6 +29,7 @@ class FileOperation:
                         print(dir_path, " is a directory a mounted directory")
                         return os.path.abspath(dir_path)
             print("Didn't found any mount point. Is usb stick connected?")
+            messagebox.showerror("Error", "Didn't found any mount point. Is usb stick connected?")
         return None
             
     # file operation methods
