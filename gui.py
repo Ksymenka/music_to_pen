@@ -84,7 +84,7 @@ class Gui:
 
         # setting up label
         self.source_frame = ttk.LabelFrame(self.mainframe, text="Path options")
-        self.source_frame.grid(row=2, column=0, columnspan=3, rowspan=12, sticky=(N))
+        self.source_frame.grid(row=2, column=0, columnspan=3, rowspan=12, sticky=(N, E, S, W))
         self.source_frame.grid_columnconfigure(index=0,weight=3)
 
         # setting up buttons

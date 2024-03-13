@@ -1,7 +1,5 @@
 import os
 import subprocess
-import random
-import shutil
 from tkinter import messagebox
 class FileOperation:
     # constuctor methods
