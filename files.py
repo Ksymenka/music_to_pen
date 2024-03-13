@@ -25,8 +25,10 @@ class FileOperation:
             for root, dirs, files in os.walk(path):
                 for dir_name in dirs:
                     dir_path = os.path.join(root, dir_name)
-                    print(dir_path, " is a directory")
-                    return os.path.abspath(dir_path)
+                    if os.path.ismount(dir_path):
+                        print(dir_path, " is a directory a mounted directory")
+                        return os.path.abspath(dir_path)
+            print("Didn't found any mount point. Is usb stick connected?")
         return None
             
     # file operation methods
