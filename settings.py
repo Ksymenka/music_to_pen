@@ -1,5 +1,6 @@
 import configparser
 import os
+from tkinter import messagebox
 
 class Settings:
     config = configparser.ConfigParser()
@@ -38,3 +39,4 @@ class Settings:
         if os.path.exists(Settings.config_full_path):
             os.remove(Settings.config_full_path)
             print("Config file has been deleted")
+            messagebox.showinfo("Removed", "Settings have been removed")

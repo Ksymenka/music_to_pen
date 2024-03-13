@@ -79,7 +79,13 @@ class Gui:
         self.selected_old.set(path)
 
     def setup_source_frame(self):
-        # setting up labels
+        
+        # save vars
+        self.save_source_var = IntVar()
+        self.save_dest_var = IntVar()
+        self.save_old_var = IntVar()
+
+        # setting up label
         self.source_frame = ttk.LabelFrame(self.mainframe, text="Path options")
         self.source_frame.grid(row=2, column=0, columnspan=3, rowspan=12, sticky=(N))
         self.source_frame.grid_columnconfigure(index=0,weight=3)
@@ -88,22 +94,27 @@ class Gui:
 
         self.label_source = Label(self.source_frame, text="Source directory:")
         self.label_source.grid(row=2, column=0, sticky=(W, E))
-
         self.select_source = Button(self.source_frame, textvariable=self.selected_source, command=self.select_source)
         self.select_source.grid(row=2, column=6)
+        
+        self.save_source = Checkbutton(self.source_frame, text="Save this path", onvalue=1, offvalue=0, variable=self.save_source_var) 
+        self.save_source.grid(row=2, column=12)
 
         self.label_dest = Label(self.source_frame, text="Destination directory:")
         self.label_dest.grid(row=4, column=0, sticky=(W, E))
-
         self.select_dest = Button(self.source_frame, textvariable=self.selected_dest, command=self.select_dest)
         self.select_dest.grid(row=4, column=6)
 
+        self.save_dest = Checkbutton(self.source_frame, text="Save this path", onvalue=1, offvalue=0, variable=self.save_dest_var)
+        self.save_dest.grid(row=4, column=12)
+
         self.label_old = Label(self.source_frame, text="Old mp4 files directory:")
         self.label_old.grid(row=6, column=0, sticky=(W, E))
-
         self.select_old = Button(self.source_frame, textvariable=self.selected_old, command=self.select_old)
         self.select_old.grid(row=6, column=6)
 
+        self.save_old = Checkbutton(self.source_frame, text="Save this path", onvalue=1, offvalue=0, variable=self.save_old_var)
+        self.save_old.grid(row=6, column=12)
     
     def setup_settings_frame(self):
         # setting up label
@@ -114,7 +125,7 @@ class Gui:
 
         # setting up buttons
 
-        self.save_options_btn = ttk.Button(self.settings_frame, text="Save options", command=lambda: self.settings.save_options(self.files_operations.source_path, self.files_operations.desination_path, self.files_operations.old_path))
+        self.save_options_btn = ttk.Button(self.settings_frame, text="Save options", command=lambda: self.save_selected())
         self.save_options_btn.grid(row=8, column=0, pady=10)
 
         self.remove_options_btn = ttk.Button(self.settings_frame, text="Remove saved options", command=lambda: self.settings.remove_options())
@@ -139,3 +150,12 @@ class Gui:
 
     def process_files_with_progress(self):
         self.files_operations.process_files_with_progress(self.progess, self.progess_text)
+        
+    def save_selected(self):
+        source_path = self.selected_source.get() if self.save_source_var.get() == 1 else None
+        dest_path = self.selected_dest.get() if self.save_dest_var.get() == 1 else None
+        old_path = self.selected_old.get() if self.save_old_var.get() == 1 else None
+        
+        print(f"Saving paths - Source: {source_path}, Destination: {dest_path}, Old: {old_path}")
+        self.settings.save_options(source_path, dest_path, old_path)
+        messagebox.showinfo("Saved", "Settings have been saved")
