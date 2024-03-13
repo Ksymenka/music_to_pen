@@ -25,7 +25,7 @@ class Gui:
 
         # # selected dirs
         self.selected_source = StringVar(value=self.files_operations.source_path)
-        self.selected_dest = StringVar(value=self.files_operations.desination_path)
+        self.selected_dest = StringVar(value=self.files_operations.dest_path)
         self.selected_old = StringVar(value=self.files_operations.old_path)
 
         # mainframe
