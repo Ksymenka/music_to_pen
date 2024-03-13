@@ -65,10 +65,12 @@ class FileOperation:
         progress_bar["maximum"] = total_files
 
         status_label["text"] = "Preparing..."
+        status_label.update_idletasks()
 
         for index, file in enumerate(files, start=1):
             print("Processing file", file, " atm")
             status_label["text"] = f"Processing file {file}"
+            status_label.update_idletasks()
             file_path = os.path.join(self.source_path, file)
             self.convert_file(file_path)
 

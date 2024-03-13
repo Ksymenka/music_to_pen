@@ -10,11 +10,8 @@ class Gui:
         self.settings = Settings()
 
         # create files.py instance and adds saved paths if they exist
-        if self.settings.is_configs_exists():
-            paths = self.settings.read_options()
-            self.files_operations = FileOperation(**paths) 
-        else:
-            self.files_operations = FileOperation()
+        paths = self.settings.read_options()
+        self.files_operations = FileOperation(**paths) 
 
 
         # window initzializtaion
