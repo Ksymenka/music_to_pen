@@ -40,3 +40,5 @@ class Settings:
             os.remove(Settings.config_full_path)
             print("Config file has been deleted")
             messagebox.showinfo("Removed", "Settings have been removed")
+    
+    

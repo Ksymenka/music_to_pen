@@ -80,11 +80,13 @@ class FileOperation:
         progress_bar["value"] = 0 
 
         files = os.listdir(self.source_path)
+        affected_files = 0
         for index, file in enumerate(files, start=1):
             print("Moving file ", file, " atm")
             status_label["text"] = f"Moving file {file}"
             file_path = os.path.join(self.source_path, file)
             self.move_file(file_path)
+            affected_files += 1
 
             progress_bar["value"] = index
             progress_bar.update_idletasks()
@@ -92,4 +94,5 @@ class FileOperation:
         print("Moving files done.")
         progress_bar["value"] = 0
         status_label["text"] = "Done"
-        
+        messagebox.showinfo("Done", f"All done. Moved {affected_files} files to target destination")
+    
