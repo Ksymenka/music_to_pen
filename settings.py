@@ -11,6 +11,7 @@ class Settings:
     def __init__(self):
         if not os.path.exists(Settings.config_path):
             os.makedirs(Settings.config_path)
+        Settings.config['saved_path'] = {}
 
     def read_options(self):
         Settings.config.read(Settings.config_full_path)
@@ -20,7 +21,6 @@ class Settings:
         return os.path.exists(Settings.config_full_path)
     
     def save_options(self, source_path=None, dest_path=None, old_path=None):
-        Settings.config['saved_path'] = {}
         if source_path is not None:
             Settings.config['saved_path']['Source_path'] = source_path
         
