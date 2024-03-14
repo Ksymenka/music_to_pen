@@ -1,5 +1,5 @@
-from files import FileOperation
-from settings import Settings
+from .files import FileOperation
+from .settings import Settings
 from tkinter import *
 from tkinter import ttk, filedialog, messagebox 
 
@@ -13,6 +13,7 @@ class Gui:
         paths = self.settings.read_options()
         self.files_operations = FileOperation(**paths) 
 
+    
 
         # window initzializtaion
         self.root = Tk()
