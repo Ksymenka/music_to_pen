@@ -22,7 +22,7 @@ class InstallProject:
         'icon' : os.path.join(cwd, "icons/pendrive.ico"),
         'desktop' : os.path.join(cwd, "music_to_pen.desktop"),
         'name' : 'music_to_pen',
-        'icon_path' : os.path.join(cwd, 'icons/pendrive.ico') # icons from https://www.iconarchive.com/show/windows-8-metro-icons-by-dakirby309/Drives-USB-alt-1-Metro-icon.html
+        'icon_path' : os.path.join(cwd, 'icons/pendrive.ico') 
     }
 
     # system paths
