@@ -1,10 +1,13 @@
+#!/usr/bin/env python3
+
 # use this file to install/uninstall application
 
 import importlib.util
 import sys
 import shutil
 import os
-class Install:
+
+class InstallProject:
 
 
     # project paths
@@ -91,25 +94,33 @@ class Install:
         
     def remove_modules(self) -> None:
         shutil.rmtree(os.path.join(self.system_paths['dep_path']), self.project_paths['name'])
+        print("Removed project modules")
     
     def remove_icon(self) -> None:
         os.remove(os.path.join(self.system_paths['app_path'], 'pendrive.ico'))
+        print("Removed icon file")
 
     def remove_main(self) -> None:
         os.remove(os.path.join(self.system_paths['bin_path'], self.project_paths['name'], "main.py"))
+        print("Removed main binary file")
 
     def remove_desktop(self) -> None:
         os.remove(os.path.join(self.system_paths['app_path'], 'music_to_pen.desktop'))
+        print("Removed desktop icon")
 
 def main() -> None:
     if os.getuid() != 0:
         print("Run this scipt only as root")
         sys.exit(1)
 
-    os.chdir(os.path.realpath(__file__))
-
-    install = Install()
+    os.chdir(os.path.dirname(os.path.abspath(__file__)))
     arg = sys.argv
+
+    if len(arg) < 2:
+        print("No argument provided.\nPlease select action (install/uninstall)")
+        sys.exit(1)
+
+    install = InstallProject()
     match arg[1]:
         case "install":
             install.install()
