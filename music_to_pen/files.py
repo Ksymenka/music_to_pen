@@ -17,6 +17,7 @@ class FileOperation:
             found_mount_point = self.check_dest_is_dir_recursively(path)
             if found_mount_point is not None:
                 return found_mount_point
+        messagebox.showerror("Error", "Didn't found any mount point. Is usb stick connected?")
 
     def check_dest_is_dir_recursively(self, path):
         if os.path.exists(path):
@@ -27,7 +28,6 @@ class FileOperation:
                         print(dir_path, " is a directory a mounted directory")
                         return os.path.abspath(dir_path)
             print("Didn't found any mount point. Is usb stick connected?")
-            messagebox.showerror("Error", "Didn't found any mount point. Is usb stick connected?")
         return None
             
     # file operation methods
