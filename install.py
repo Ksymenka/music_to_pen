@@ -5,6 +5,7 @@
 import importlib.util
 import sys
 import shutil
+import pwd
 import os
 
 class InstallProject:
@@ -14,8 +15,10 @@ class InstallProject:
 
     cwd = os.getcwd() 
 
+
+
     project_paths = {
-        'module_dir' : os.path.join(cwd, "modules"),
+        'module_dir' : os.path.join(cwd, "music_to_pen"),
         'icon' : os.path.join(cwd, "icons/pendrive.ico"),
         'desktop' : os.path.join(cwd, "music_to_pen.desktop"),
         'name' : 'music_to_pen',
@@ -25,9 +28,9 @@ class InstallProject:
     # system paths
 
     system_paths = {
-        'dep_path' : '/usr/lib/python3.11/',
-        'bin_path' : '/usr/bin/',
-        'app_path' : os.path.join(os.path.expanduser("~"), '.local/share/applications/') 
+        'dep_path' : '/usr/lib/python3.11/music_to_pen',
+        'bin_path' : '/usr/bin/music_to_pen',
+        'app_path' : '/usr/share/applications' 
     }
 
     # constructor
@@ -36,8 +39,9 @@ class InstallProject:
         if importlib.util.find_spec("tkinter") is None:
             print("Tkinter may not be installed. App may not function properly") 
 
-        dep_dir = os.path.join(self.system_paths['dep_path'], self.project_paths['name'])
-        bin_dir = os.path.join(self.system_paths['bin_path'], self.project_paths['name'])
+
+        dep_dir = self.system_paths['dep_path']
+        bin_dir = self.system_paths['bin_path']
 
         if not os.path.exists(dep_dir):
             os.makedirs(dep_dir)
@@ -59,17 +63,15 @@ class InstallProject:
 
     def copy_modules(self) -> None:
         for module in os.listdir(self.project_paths['module_dir']):
-            if os.path.isfile(module):
-                module_path_origin = os.path.join(self.project_paths['module_dir'], module)
-                module_path_destination = os.path.join(self.system_paths['dep_path'], module)
-                shutil.copy(module_path_origin, module_path_destination)
-                print(f"Moved file {module}")
+            module_path_origin = os.path.join(self.project_paths['module_dir'], module)
+            if os.path.isfile(module_path_origin):
+                shutil.copy(module_path_origin, self.system_paths['dep_path'])
+                print(f"Moved file from {module_path_origin} to {self.system_paths['dep_path']}")
 
     def copy_main(self) -> None:
         main_file_path = os.path.join(self.cwd, "main.py")
-        main_file_dest = os.path.join(self.system_paths['bin_path'], self.project_paths['name'], "main.py")
-        shutil.copy(main_file_path, main_file_dest)
-        print(f"Moved file to {main_file_dest}")
+        shutil.copy(main_file_path, self.system_paths['bin_path'])
+        print(f"Moved file to {self.system_paths['bin_path']}")
 
     def copy_desktop(self) -> None:
         dest = os.path.join(self.system_paths['app_path'], 'music_to_pen.desktop')
@@ -90,23 +92,26 @@ class InstallProject:
             self.remove_desktop()
             print("Uninstall successful")
         except Exception as e:
-            print("An error occurred while uninstalling: {e}")
+            print(f"An error occurred while uninstalling: {e}")
         
     def remove_modules(self) -> None:
-        shutil.rmtree(os.path.join(self.system_paths['dep_path']), self.project_paths['name'])
-        print("Removed project modules")
+        shutil.rmtree(self.system_paths['dep_path'])
+        print(f"Removed project modules at {self.system_paths['dep_path']}")
     
     def remove_icon(self) -> None:
-        os.remove(os.path.join(self.system_paths['app_path'], 'pendrive.ico'))
-        print("Removed icon file")
+        dest = os.path.join(self.system_paths['app_path'], 'pendrive.ico')
+        os.remove(dest)
+        print(f"Removed icon file at {dest}")
 
     def remove_main(self) -> None:
-        os.remove(os.path.join(self.system_paths['bin_path'], self.project_paths['name'], "main.py"))
-        print("Removed main binary file")
+        dest = os.path.join(self.system_paths['bin_path'], "main.py")
+        os.remove(dest)
+        print(f"Removed main binary file at {dest}")
 
     def remove_desktop(self) -> None:
-        os.remove(os.path.join(self.system_paths['app_path'], 'music_to_pen.desktop'))
-        print("Removed desktop icon")
+        dest = os.path.join(self.system_paths['app_path'], 'music_to_pen.desktop')
+        os.remove(dest)
+        print(f"Removed desktop icon at {dest}")
 
 def main() -> None:
     if os.getuid() != 0:

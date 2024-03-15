@@ -1,5 +1,5 @@
-from .files import FileOperation
-from .settings import Settings
+from music_to_pen.files import FileOperation
+from music_to_pen.settings import Settings
 from tkinter import *
 from tkinter import ttk, filedialog, messagebox 
 
