@@ -2,6 +2,7 @@
 
 import importlib.util
 import sys
+import shutil
 import os
 class Install:
 
@@ -42,35 +43,80 @@ class Install:
 
     # install methods
     
-    def install(self):
-        self.move_modules()
-        self.move_main()
-        self.move_icon()
-        self.move_desktop()
+    def install(self) -> None:
+        try:
+            self.copy_modules()
+            self.copy_main()
+            self.copy_icon()
+            self.copy_desktop()
+            print("Install successful")
+        except Exception as e:
+            print(f"There was an error while installing: {e}")
 
-    def move_modules(self):
+
+    def copy_modules(self) -> None:
         for module in os.listdir(self.project_paths['module_dir']):
             if os.path.isfile(module):
                 module_path_origin = os.path.join(self.project_paths['module_dir'], module)
                 module_path_destination = os.path.join(self.system_paths['dep_path'], module)
-                os.replace(module_path_origin, module_path_destination)
+                shutil.copy(module_path_origin, module_path_destination)
                 print(f"Moved file {module}")
 
-    def move_main(self):
+    def copy_main(self) -> None:
         main_file_path = os.path.join(self.cwd, "main.py")
         main_file_dest = os.path.join(self.system_paths['bin_path'], self.project_paths['name'], "main.py")
-        os.replace(main_file_path, main_file_dest)
+        shutil.copy(main_file_path, main_file_dest)
         print(f"Moved file to {main_file_dest}")
 
-    def move_desktop(self):
+    def copy_desktop(self) -> None:
         dest = os.path.join(self.system_paths['app_path'], 'music_to_pen.desktop')
-        os.replace(self.project_paths['desktop'], dest)
+        shutil.copy(self.project_paths['desktop'], dest)
         print(f"Moved file to {dest}")
 
-    def move_icon(self):
+    def copy_icon(self) -> None:
         dest = os.path.join(self.system_paths['app_path'], "pendrive.ico")
-        os.replace(self.project_paths['icon_path'], dest)
+        shutil.copy(self.project_paths['icon_path'], dest)
         print(f"Moved file to {dest}")
     
     # remove methods
+    def uninstall(self) -> None:
+        try:
+            self.remove_modules()
+            self.remove_icon()
+            self.remove_main()
+            self.remove_desktop()
+            print("Uninstall successful")
+        except Exception as e:
+            print("An error occurred while uninstalling: {e}")
         
+    def remove_modules(self) -> None:
+        shutil.rmtree(os.path.join(self.system_paths['dep_path']), self.project_paths['name'])
+    
+    def remove_icon(self) -> None:
+        os.remove(os.path.join(self.system_paths['app_path'], 'pendrive.ico'))
+
+    def remove_main(self) -> None:
+        os.remove(os.path.join(self.system_paths['bin_path'], self.project_paths['name'], "main.py"))
+
+    def remove_desktop(self) -> None:
+        os.remove(os.path.join(self.system_paths['app_path'], 'music_to_pen.desktop'))
+
+def main() -> None:
+    if os.getuid() != 0:
+        print("Run this scipt only as root")
+        sys.exit(1)
+
+    os.chdir(os.path.realpath(__file__))
+
+    install = Install()
+    arg = sys.argv
+    match arg[1]:
+        case "install":
+            install.install()
+        case "uninstall":
+            install.uninstall()
+        case _:
+            print("Invalid argument.\nPlease select action (install/uninstall)")
+
+if __name__ == "__main__":
+    main()
