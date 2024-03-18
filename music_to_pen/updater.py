@@ -2,7 +2,7 @@ import os
 from git import Repo
 import git
 import requests
-import install
+from install import InstallProject
 import subprocess
 from tkinter import messagebox
 
