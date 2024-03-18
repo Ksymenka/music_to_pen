@@ -4,7 +4,12 @@ sys.path.append(os.path.expanduser("~/.local/lib/python3.11/"))
 from git import Repo
 import git
 import requests
+<<<<<<< HEAD
+import music_to_pen.install
 from music_to_pen.install import InstallProject
+=======
+from install import InstallProject
+>>>>>>> 1ccc0a3505290a4b2804250705223b984d25c7e5
 import subprocess
 from tkinter import messagebox
 
