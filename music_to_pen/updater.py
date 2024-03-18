@@ -27,8 +27,11 @@ class Updater:
         return self.repo.head.commit.hexsha
     
     def check_updates(self) -> None:
-        if self.get_local_commit() and self.get_remote_commit():
-            if self.get_remote_commit() == self.get_local_commit:
+        remote_commit = self.get_remote_commit() 
+        local_commit = self.get_local_commit()
+
+        if remote_commit and local_commit:
+            if remote_commit == local_commit:
                 print("Project is up to date")
             else:
                 print("There is update avaible")

@@ -113,6 +113,18 @@ class InstallProject:
         os.remove(dest)
         print(f"Removed desktop icon at {dest}")
 
+    # other
+    
+    def check_if_installed(self) -> None:
+        file_ammount = 0
+        for file in os.walk(self.system_paths['bin_path']):
+            file_ammount += 1
+        if file_ammount == 0:
+            return False
+        else:
+            return True
+
+
 def main() -> None:
     if os.getuid() != 0:
         print("Run this scipt only as root")
@@ -133,6 +145,8 @@ def main() -> None:
             install.uninstall()
         case _:
             print("Invalid argument.\nPlease select action (install/uninstall)")
+        
+    
 
 if __name__ == "__main__":
     main()
