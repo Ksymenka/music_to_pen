@@ -7,6 +7,7 @@ import sys
 import shutil
 import pwd
 import os
+import pathlib
 
 class InstallProject:
 
@@ -14,7 +15,7 @@ class InstallProject:
     # project paths
 
     cwd = os.getcwd() 
-
+    home = os.path.expanduser("~")
 
 
     project_paths = {
@@ -28,9 +29,9 @@ class InstallProject:
     # system paths
 
     system_paths = {
-        'dep_path' : '/usr/lib/python3.11/music_to_pen',
-        'bin_path' : '/usr/bin/music_to_pen',
-        'app_path' : '/usr/share/applications' 
+        'dep_path' : os.path.join(home, '.local/lib/python3.11/music_to_pen'),
+        'bin_path' : os.path.join(home, '.local/bin'),
+        'app_path' : os.path.join(home, '.local/share/applications'),
     }
 
     # constructor
@@ -39,14 +40,11 @@ class InstallProject:
         if importlib.util.find_spec("tkinter") is None:
             print("Tkinter may not be installed. App may not function properly") 
 
+        for path in self.system_paths:
+            if not os.path.exists(path):
+                print(f"Path {path} didn't exists, creating...")
+                os.makedirs(path)
 
-        dep_dir = self.system_paths['dep_path']
-        bin_dir = self.system_paths['bin_path']
-
-        if not os.path.exists(dep_dir):
-            os.makedirs(dep_dir)
-        if not os.path.exists(bin_dir):
-            os.makedirs(bin_dir)
 
     # install methods
     
@@ -84,6 +82,7 @@ class InstallProject:
         print(f"Moved file to {dest}")
     
     # remove methods
+
     def uninstall(self) -> None:
         try:
             self.remove_modules()
@@ -123,12 +122,10 @@ class InstallProject:
             return False
         else:
             return True
+        
 
 
 def main() -> None:
-    if os.getuid() != 0:
-        print("Run this scipt only as root")
-        sys.exit(1)
 
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
     arg = sys.argv
