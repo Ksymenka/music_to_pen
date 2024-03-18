@@ -1,8 +1,0 @@
-#!/usr/bin/env xdg-open
-[Desktop Entry]
-Name=Music to pendrive
-Exec=/home/ksymena/.local/bin/music_to_pen/main.py
-Icon=/home/ksymena/.local/share/applications/pendrive.ico
-Terminal=false
-Type=Application
-        
