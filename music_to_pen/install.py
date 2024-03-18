@@ -19,18 +19,18 @@ class InstallProject:
 
 
     project_paths = {
-        'module_dir' : os.path.join(cwd, "music_to_pen"),
-        'icon' : os.path.join(cwd, "icons/pendrive.ico"),
-        'desktop' : os.path.join(cwd, "music_to_pen.desktop"),
+        'module_dir' : cwd,
+        'icon' : os.path.join(cwd, "../icons/pendrive.ico"),
+        'desktop' : os.path.join(cwd, "../music_to_pen.desktop"),
         'name' : 'music_to_pen',
-        'icon_path' : os.path.join(cwd, 'icons/pendrive.ico') 
+        'icon_path' : os.path.join(cwd, '../icons/pendrive.ico') 
     }
 
     # system paths
 
     system_paths = {
         'dep_path' : os.path.join(home, '.local/lib/python3.11/music_to_pen'),
-        'bin_path' : os.path.join(home, '.local/bin'),
+        'bin_path' : os.path.join(home, '.local/bin/music_to_pen'),
         'app_path' : os.path.join(home, '.local/share/applications'),
     }
 
@@ -40,10 +40,11 @@ class InstallProject:
         if importlib.util.find_spec("tkinter") is None:
             print("Tkinter may not be installed. App may not function properly") 
 
-        for path in self.system_paths:
+        for key, path in self.system_paths.items():
             if not os.path.exists(path):
                 print(f"Path {path} didn't exists, creating...")
                 os.makedirs(path)
+        self.create_desktop()
 
 
     # install methods
@@ -67,13 +68,14 @@ class InstallProject:
                 print(f"Moved file from {module_path_origin} to {self.system_paths['dep_path']}")
 
     def copy_main(self) -> None:
-        main_file_path = os.path.join(self.cwd, "main.py")
+        main_file_path = os.path.join(self.cwd, "../main.py")
         shutil.copy(main_file_path, self.system_paths['bin_path'])
         print(f"Moved file to {self.system_paths['bin_path']}")
 
     def copy_desktop(self) -> None:
         dest = os.path.join(self.system_paths['app_path'], 'music_to_pen.desktop')
         shutil.copy(self.project_paths['desktop'], dest)
+        os.chmod(dest, 0o755)
         print(f"Moved file to {dest}")
 
     def copy_icon(self) -> None:
@@ -122,6 +124,20 @@ class InstallProject:
             return False
         else:
             return True
+        
+    def create_desktop(self) -> None:
+        file = self.project_paths['desktop']
+        content = f'''#!/usr/bin/env xdg-open
+[Desktop Entry]
+Name=Music to pendrive
+Exec={os.path.join(self.system_paths['bin_path'], 'main.py')}
+Icon={os.path.join(self.system_paths['app_path'], 'pendrive.ico')}
+Terminal=false
+Type=Application
+        '''
+        with open(file, 'w') as desktop_file:
+            desktop_file.write(content)
+        os.chmod(file, 0o755)
         
 
 

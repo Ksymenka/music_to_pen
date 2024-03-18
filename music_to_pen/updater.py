@@ -2,6 +2,7 @@ import os
 from git import Repo
 import requests
 from install import InstallProject
+import subprocess
 from tkinter import messagebox
 
 class Updater:
