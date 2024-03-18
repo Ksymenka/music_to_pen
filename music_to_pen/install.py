@@ -8,6 +8,7 @@ import shutil
 import pwd
 import os
 import pathlib
+import settings
 
 class InstallProject:
 
@@ -16,7 +17,7 @@ class InstallProject:
 
     cwd = os.getcwd() 
     home = os.path.expanduser("~")
-
+    git_repository = os.path.join(os.path.abspath(__file__), "..")
 
     project_paths = {
         'module_dir' : cwd,

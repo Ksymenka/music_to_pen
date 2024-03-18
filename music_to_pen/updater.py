@@ -1,20 +1,28 @@
+import sys
 import os
+sys.path.append(os.path.expanduser("~/.local/lib/python3.11/"))
 from git import Repo
 import git
 import requests
-import install
+import music_to_pen.install
+from music_to_pen.install import InstallProject
 import subprocess
 from tkinter import messagebox
 
 class Updater:
     def __init__(self) -> None:
         self.project_path = self.get_project_path()
+        print(f"Project path: {self.project_path}")
         self.repo = Repo(self.project_path)
-        self.origin = self.repo.remotes.origin 
+        self.origin = self.repo.remotes.origin
 
         
     def get_project_path(self) -> None:
-        file_path = os.path.realpath(__file__)
+        install = InstallProject()
+        if install.check_if_installed:
+            file_path = install.git_repository 
+        else:
+            file_path = os.path.realpath(__file__)
         
         if 'music_to_pen' in file_path:
             last_index = file_path.find('music_to_pen') + len('music_to_pen')
