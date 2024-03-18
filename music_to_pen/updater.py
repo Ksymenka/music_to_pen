@@ -1,7 +1,8 @@
 import os
 from git import Repo
+import git
 import requests
-from install import InstallProject
+import install
 import subprocess
 from tkinter import messagebox
 
@@ -57,7 +58,6 @@ class Updater:
             
             print("Updated succesfully")
         except git.GitCommandError as e:
-            print(f"There was an erroe while updating: {e}")
+            print(f"There was an error while updating: {e}")
+        messagebox.showinfo("Updated", "Updated succesfully")
         
-update = Updater()
-update.check_updates()
