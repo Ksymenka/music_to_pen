@@ -19,3 +19,4 @@ pyvenv.cfg
 shutil
 sys
 music_to_pen/updater_test.py
+music_to_pen/install_test.py
