@@ -57,12 +57,14 @@ class Updater:
             
     def update(self):
         install = InstallProject()
-        if install.check_if_installed():
+        settings = Settings()
+        installed = settings.read_one_option('misc', 'installed') 
+        if installed == "True":
             install.uninstall()
         try:
             self.origin.fetch()
             self.origin.pull()
-            if install.check_if_installed():
+            if installed == "True":
                 install.install()
             
             print("Updated succesfully")
