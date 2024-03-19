@@ -19,15 +19,16 @@ class InstallProject:
     cwd = os.getcwd() 
     home = os.path.expanduser("~")
     settings = Settings()
+    repo = settings.read_one_option('git', 'remote')
 
     # project paths
 
     project_paths = {
-        'module_dir' : cwd,
-        'icon' : os.path.join(cwd, "../icons/pendrive.ico"),
-        'desktop' : os.path.join(cwd, "../music_to_pen.desktop"),
+        'module_dir' : repo,
+        'icon' : os.path.join(repo, "../icons/pendrive.ico"),
+        'desktop' : os.path.join(repo, "../music_to_pen.desktop"),
         'name' : 'music_to_pen',
-        'icon_path' : os.path.join(cwd, '../icons/pendrive.ico') 
+        'icon_path' : os.path.join(repo, '../icons/pendrive.ico') 
     }
 
     # system paths
