@@ -19,8 +19,9 @@ class InstallProject:
     cwd = os.getcwd() 
     home = os.path.expanduser("~")
     settings = Settings()
-    repo = settings.read_one_option('git', 'remote')
-
+    git_remote = settings.read_one_option('git', 'remote') 
+    repo = git_remote if git_remote is not None else cwd 
+    
     # project paths
 
     project_paths = {
@@ -151,7 +152,7 @@ Type=Application
 
 def main() -> None:
 
-    os.chdir(os.path.dirname(os.path.abspath(__file__)))
+    # os.chdir(os.path.dirname(os.path.abspath(__file__)))
     arg = sys.argv
 
     if InstallProject.cwd != os.path.dirname(os.path.abspath(__file__)):
