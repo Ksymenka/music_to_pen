@@ -54,6 +54,10 @@ class InstallProject:
             InstallProject.settings.save_one_option('git', 'remote', InstallProject.cwd)
             print(f"Added git {InstallProject.cwd} to section git at key remote in the file {InstallProject.settings.config_full_path}")
 
+    # reinstall
+    def reinstall(self) -> None:
+        self.uninstall()
+        self.install()
 
     # install methods
     
@@ -167,6 +171,8 @@ def main() -> None:
             install.install()
         case "uninstall":
             install.uninstall()
+        case "reinstall":
+            install.reinstall()
         case _:
             print("Invalid argument.\nPlease select action (install/uninstall)")
         
