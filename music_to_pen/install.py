@@ -49,6 +49,9 @@ class InstallProject:
                 print(f"Path {path} didn't exists, creating...")
                 os.makedirs(path)
         self.create_desktop()
+        if not InstallProject.settings.config.has_section('git'):
+            InstallProject.settings.save_one_option('git', 'remote', InstallProject.cwd)
+            print(f"Added git {InstallProject.cwd} to section git at key remote in the file {InstallProject.settings.config_full_path}")
 
 
     # install methods
@@ -61,6 +64,7 @@ class InstallProject:
             self.copy_desktop()
             print("Install successful")
             self.installed = True
+            InstallProject.settings.save_one_option('misc', 'installed', 'True')
         except Exception as e:
             print(f"There was an error while installing: {e}")
 
@@ -98,6 +102,7 @@ class InstallProject:
             self.remove_desktop()
             print("Uninstall successful")
             self.installed = False
+            InstallProject.settings.remove_one_option('misc', 'installed')
         except Exception as e:
             print(f"An error occurred while uninstalling: {e}")
         
@@ -122,14 +127,6 @@ class InstallProject:
 
     # other
     
-    def check_if_installed(self) -> None:
-        file_ammount = 0
-        for file in os.walk(self.system_paths['bin_path']):
-            file_ammount += 1
-        if file_ammount == 0:
-            return False
-        else:
-            return True
         
     def create_desktop(self) -> None:
         file = self.project_paths['desktop']
@@ -152,11 +149,18 @@ def main() -> None:
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
     arg = sys.argv
 
+    if InstallProject.cwd != os.path.dirname(os.path.abspath(__file__)):
+        print (InstallProject.cwd, "\n", os.path.dirname(os.path.abspath(__file__)))
+        print("Please run this file from the same directory as it is, exiting...")
+        sys.exit()
+        return
+
+    install = InstallProject()
+
     if len(arg) < 2:
         print("No argument provided.\nPlease select action (install/uninstall)")
         sys.exit(1)
 
-    install = InstallProject()
     match arg[1]:
         case "install":
             install.install()

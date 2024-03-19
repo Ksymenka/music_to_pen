@@ -5,6 +5,7 @@ from git import Repo
 import git
 import requests
 from music_to_pen.install import InstallProject
+from settings import Settings
 import subprocess
 from tkinter import messagebox
 
@@ -18,8 +19,9 @@ class Updater:
         
     def get_project_path(self) -> None:
         install = InstallProject()
-        if install.check_if_installed:
-            file_path = install.git_repository 
+        settings = Settings()
+        if settings.read_one_option('misc', 'installed') == "True":
+            file_path = settings.read_one_option('git', 'remote')
         else:
             file_path = os.path.realpath(__file__)
         
