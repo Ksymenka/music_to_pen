@@ -6,5 +6,3 @@ You can just run it with `python3 ./main.py`. There is also a `music_to_pen/inst
 
 ## Updating
 Every time you run main.py it checks for newer commits. If it found any it will ask you for updating.
-
-.
