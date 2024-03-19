@@ -38,11 +38,11 @@ class Settings:
             print("Options has been saved to a file at ", Settings.config_full_path)
             
     def remove_options(self):
-        self.config.read(Settings.config_full_path)
-        if self.config.has_section('saved_path'):
-            self.config.remove_section('saved_path')
+        Settings.config.read(Settings.config_full_path)
+        if Settings.config.has_section('saved_path'):
+            Settings.config.remove_section('saved_path')
             with open(Settings.config_full_path, 'w') as configfile:
-                self.config.write(configfile)
+                Settings.config.write(configfile)
             print("Config file has been deleted")
             messagebox.showinfo("Removed", "Settings have been removed")
             
@@ -55,6 +55,13 @@ class Settings:
                 Settings.config.write(configfile)
         except Exception as e:
             print(f"There was an error while saving: {e}")
+            
+    def read_one_option(self, section : str, key : str):
+        if Settings.config.has_section(section) and Settings.config.has_option(section, key):
+            Settings.config.read(Settings.config_full_path)
+            return Settings.config.get(section, key)
+
+
 
             
 

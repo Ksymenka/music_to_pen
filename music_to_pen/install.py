@@ -8,7 +8,7 @@ import shutil
 import pwd
 import os
 import pathlib
-import settings
+from settings import Settings
 
 class InstallProject:
 
@@ -18,6 +18,7 @@ class InstallProject:
     installed = False
     cwd = os.getcwd() 
     home = os.path.expanduser("~")
+    settings = Settings()
 
     # project paths
 
