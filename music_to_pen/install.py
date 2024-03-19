@@ -13,11 +13,13 @@ import settings
 class InstallProject:
 
 
-    # project paths
+    # some variables
 
+    installed = False
     cwd = os.getcwd() 
     home = os.path.expanduser("~")
-    git_repository = os.path.join(os.path.abspath(__file__), "..")
+
+    # project paths
 
     project_paths = {
         'module_dir' : cwd,
@@ -57,6 +59,7 @@ class InstallProject:
             self.copy_icon()
             self.copy_desktop()
             print("Install successful")
+            self.installed = True
         except Exception as e:
             print(f"There was an error while installing: {e}")
 
@@ -93,6 +96,7 @@ class InstallProject:
             self.remove_main()
             self.remove_desktop()
             print("Uninstall successful")
+            self.installed = False
         except Exception as e:
             print(f"An error occurred while uninstalling: {e}")
         
