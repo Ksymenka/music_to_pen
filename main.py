@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-from music_to_pen.gui import Gui
-from music_to_pen.updater import Updater 
+from modules.gui import Gui
+from modules.updater import Updater 
 
 if __name__ == "__main__":
         update = Updater()

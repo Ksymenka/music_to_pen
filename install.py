@@ -4,19 +4,19 @@
 
 import sys
 import os
-from music_to_pen.settings import Settings
 
 class InstallProject:
     
 
     cwd = os.getcwd() 
-    settings = Settings()
     desktop_path = os.path.expanduser("~/.local/share/applications/music_to_pen.desktop")
 
     def __init__(self):
-        if not os.path.exists(self.desktop_path):
-            print(f"Path {self.desktop_path} did not exists, creating...")
-            os.makedirs(self.desktop_path)
+        print(f"Cwd: {self.cwd}")
+        app_path = os.path.expanduser("~/.local/share/applications/")
+        if not os.path.exists(app_path):
+            print(f"Path {app_path} did not exists, creating...")
+            os.makedirs(app_path)
 
     def reinstall(self) -> None:
         self.uninstall()
@@ -37,8 +37,8 @@ class InstallProject:
         content = f'''#!/usr/bin/env xdg-open
 [Desktop Entry]
 Name=Music to pendrive
-Exec={os.path.join(self.cwd, "../main.py")}
-Icon={os.path.join(self.cwd, '../icons/pendrive.ico')}
+Exec={os.path.join(self.cwd, "main.py")}
+Icon={os.path.join(self.cwd, 'icons/pendrive.ico')}
 Terminal=false
 Type=Application
         '''
@@ -46,6 +46,7 @@ Type=Application
             desktop_file.write(content)
         os.chmod(path, 0o755)
         print(f"Created desktop file at {path}")
+        print(f"File content: {path}")
         
 
 
@@ -72,11 +73,9 @@ def main() -> None:
         case "reinstall":
             install.reinstall()
         case _:
-            print("Invalid argument.\nPlease select action (install/uninstall)")
+            print("Invalid argument.\nPlease select action (install/uninstall/reinstall)")
         
     
 
 if __name__ == "__main__":
     main()
-    # install = InstallProject()
-    # install.create_desktop()

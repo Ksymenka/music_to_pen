@@ -3,8 +3,7 @@ import os
 from git import Repo
 import git 
 import requests
-from .install import InstallProject
-from .settings import Settings
+from modules.settings import Settings
 from tkinter import messagebox
 
 class Updater:
@@ -16,7 +15,6 @@ class Updater:
 
         
     def get_project_path(self) -> None:
-        install = InstallProject()
         settings = Settings()
         file_path = os.path.realpath(__file__)
         
