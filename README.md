@@ -2,7 +2,7 @@ Simple python program that lets you transfer and convert your music files from p
 
 # Usage
 
-You can just run it with `python3 ./main.py`. There is also a `music_to_pen/install.py` script that will create `music_to_pen.desktop` file and put in in `$HOME/.local/share/applications/`. 
+You can just run it with `python3 ./main.py`. There is also a `music_to_pen/install.py` script that will create `music_to_pen.desktop` file and put in in `$HOME/.local/share/applications/`.. 
 
 ## Python virt env
 
