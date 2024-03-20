@@ -37,7 +37,7 @@ class InstallProject:
         content = f'''#!/usr/bin/env xdg-open
 [Desktop Entry]
 Name=Music to pendrive
-Exec={os.path.join(self.cwd, "main.py")}
+Exec={os.path.join(self.cwd, "bin/activate")} && {os.path.join(self.cwd, "main.py")}
 Icon={os.path.join(self.cwd, 'icons/pendrive.ico')}
 Terminal=false
 Type=Application
