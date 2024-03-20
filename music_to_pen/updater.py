@@ -1,12 +1,10 @@
 import sys
 import os
-sys.path.append(os.path.expanduser("~/.local/lib/python3.11/"))
 from git import Repo
-import git
+import git 
 import requests
-from music_to_pen.install import InstallProject
-from settings import Settings
-import subprocess
+from .install import InstallProject
+from .settings import Settings
 from tkinter import messagebox
 
 class Updater:
@@ -20,10 +18,7 @@ class Updater:
     def get_project_path(self) -> None:
         install = InstallProject()
         settings = Settings()
-        if settings.read_one_option('misc', 'installed') == "True":
-            file_path = settings.read_one_option('git', 'remote')
-        else:
-            file_path = os.path.realpath(__file__)
+        file_path = os.path.realpath(__file__)
         
         if 'music_to_pen' in file_path:
             last_index = file_path.find('music_to_pen') + len('music_to_pen')
@@ -56,16 +51,10 @@ class Updater:
             self.update()
             
     def update(self):
-        install = InstallProject()
         settings = Settings()
-        installed = settings.read_one_option('misc', 'installed') 
-        if installed == "True":
-            install.uninstall()
         try:
             self.origin.fetch()
             self.origin.pull()
-            if installed == "True":
-                install.install()
             
             print("Updated succesfully")
         except git.GitCommandError as e:

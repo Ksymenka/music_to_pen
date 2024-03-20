@@ -1,5 +1,5 @@
-from files import FileOperation
-from settings import Settings
+from .files import FileOperation
+from .settings import Settings
 from tkinter import *
 from tkinter import ttk, filedialog, messagebox 
 
