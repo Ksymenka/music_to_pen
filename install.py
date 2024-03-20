@@ -37,11 +37,10 @@ class InstallProject:
         content = f'''#!/usr/bin/env xdg-open
 [Desktop Entry]
 Name=Music to pendrive
-Exec={os.path.join(self.cwd, "bin/activate")} && {os.path.join(self.cwd, "main.py")}
+Exec=/usr/bin/bash -c "{os.path.join(self.cwd, "bin/activate")} && {os.path.join(self.cwd, "main.py")}"
 Icon={os.path.join(self.cwd, 'icons/pendrive.ico')}
 Terminal=false
-Type=Application
-        '''
+Type=Application'''
         with open(path, 'w') as desktop_file:
             desktop_file.write(content)
         os.chmod(path, 0o755)
