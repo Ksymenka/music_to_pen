@@ -7,14 +7,10 @@ lib
 lib64
 __pycache__
 pyvenv.cfg
-bin
 importlib.util
 include
-lib
-lib64
 main.spec
 os
-__pycache__
 pyvenv.cfg
 shutil
 sys
